@@ -1,0 +1,75 @@
+﻿<Window x:Class="SGS.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SGS"
+        mc:Ignorable="d"
+        Style="{DynamicResource  CustomWindowStyle}"
+        Title="Запись на смену" Height="330" Width="210">
+
+    <Grid>
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
+            <TextBlock Text="Город" 
+                       TextAlignment="Left" 
+                       FontSize="18" 
+                       Width="348" 
+                       Margin="15, 15"/>
+            <ComboBox x:Name="CitiesComboBox"
+                      HorizontalAlignment="Left" 
+                      Width="185" 
+                      SelectionChanged="CitiesComboBox_SelectionChanged" 
+                      Margin="10, -10"/>
+            <TextBlock Text="Цех" 
+                       TextAlignment="Left" 
+                       FontSize="18" 
+                       Width="348" 
+                       Margin="15, 15"/>
+            <ComboBox x:Name="ShopsComboBox"
+                      HorizontalAlignment="Left" 
+                      Width="185" 
+                      SelectionChanged="ShopsComboBox_SelectionChanged"
+                      Margin="10, -10"/>
+            <TextBlock Text="Cотрудник" 
+                       TextAlignment="Left" 
+                       FontSize="18" 
+                       Width="348" 
+                       Margin="15, 15"/>
+            <ComboBox x:Name="EmployeeComboBox"
+                      HorizontalAlignment="Left" 
+                      Width="185" 
+                      Margin="10, -10"/>
+            <TextBlock Text="Бригада" 
+                       TextAlignment="Left" 
+                       FontSize="18" 
+                       Width="348" 
+                       Margin="15, 15"/>
+            <StackPanel Orientation="Horizontal" Margin="10, -10">
+                <RadioButton x:Name="Brigade1" 
+                             Content="1"  
+                             Width="50" 
+                             IsChecked="True"/>
+                <RadioButton x:Name="Brigade2" 
+                             Content="2" 
+                             Width="40"/>
+            </StackPanel>
+            <Button x:Name="ShiftEnter" 
+                    Width="110" 
+                    Margin="0, 30" 
+                    Content="Смена" 
+                    Click="ShiftEnter_Click" 
+                    HorizontalAlignment="Center" 
+                    Background="#FF5E6569" 
+                    FontSize="18" 
+                    FontFamily="Microsoft Sans Serif" 
+                    Height="32" 
+                    Cursor="Hand">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="5"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+        </StackPanel>
+    </Grid>
+</Window>
