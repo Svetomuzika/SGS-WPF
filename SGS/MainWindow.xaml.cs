@@ -33,41 +33,60 @@ namespace SGS
             CitiesComboBox.ItemsSource = Employees.Select(x => x.City).Distinct().ToList();
             ShopsComboBox.ItemsSource = Employees.Select(x => x.Shop).Distinct().ToList();
             EmployeeComboBox.ItemsSource = Employees.Select(x => x.Employee).ToList();
-            //BrigadeComboBox.ItemsSource = new List<int>() { 1, 2};
         }
 
         private void CitiesComboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
-            if (CitiesComboBox.SelectedItem != null)
-                if (Employees.Select(x => x.City).Distinct().ToList().Contains(CitiesComboBox.SelectedItem.ToString()))
+            if(CitiesComboBox.SelectedItem != null)
+            {
+                if (ShopsComboBox.SelectedItem != null && ShopsComboBox.SelectedItem.ToString() != "Не выбрано")
                 {
+                    EmployeeComboBox.ItemsSource = Employees.Where(x => x.Shop == ShopsComboBox.SelectedItem.ToString()).Select(a => a.Employee).ToList();
+
                     if (CitiesComboBox.SelectedItem.ToString() == "Не выбрано")
                     {
                         ShopsComboBox.ItemsSource = Employees.Select(x => x.Shop).Distinct().ToList();
-                        EmployeeComboBox.ItemsSource = Employees.Select(x => x.Employee).ToList();
-                        return;
+                        EmployeeComboBox.ItemsSource = Employees.Where(x => x.Shop == ShopsComboBox.SelectedItem.ToString()).Select(x => x.Employee).ToList();
                     }
-
-                    ShopsComboBox.ItemsSource = Employees.Where(x => x.City == CitiesComboBox.SelectedItem.ToString() || x.City == "Не выбрано").Select(a => a.Shop).Distinct().ToList();
-                    EmployeeComboBox.ItemsSource = Employees.Where(x => x.City == CitiesComboBox.SelectedItem.ToString()).Select(a => a.Employee).Distinct().ToList();
+                    return;
                 }
+                if (CitiesComboBox.SelectedItem.ToString() == "Не выбрано")
+                {
+                    ShopsComboBox.ItemsSource = Employees.Select(x => x.Shop).Distinct().ToList();
+                    EmployeeComboBox.ItemsSource = Employees.Select(x => x.Employee).ToList();
+                    return;
+                }
+
+                ShopsComboBox.ItemsSource = Employees
+                    .Where(x => x.City == CitiesComboBox.SelectedItem.ToString() || x.City == "Не выбрано")
+                    .Select(a => a.Shop).Distinct().ToList();
+                EmployeeComboBox.ItemsSource = Employees.Where(x => x.City == CitiesComboBox.SelectedItem.ToString()).Select(a => a.Employee).Distinct().ToList();
+            }
         }
 
         private void ShopsComboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
             if (ShopsComboBox.SelectedItem != null)
-                if (Employees.Select(x => x.Shop).Distinct().ToList().Contains(ShopsComboBox.SelectedItem.ToString()))
+            {
+                if (ShopsComboBox.SelectedItem.ToString() == "Не выбрано")
                 {
-                    if (ShopsComboBox.SelectedItem.ToString() == "Не выбрано")
+                    if (CitiesComboBox.SelectedItem != null && CitiesComboBox.SelectedItem.ToString() != "Не выбрано")
                     {
                         CitiesComboBox.ItemsSource = Employees.Select(x => x.City).Distinct().ToList();
-                        EmployeeComboBox.ItemsSource = Employees.Select(x => x.Employee).ToList();
+                        EmployeeComboBox.ItemsSource = Employees.Where(x => x.City == CitiesComboBox.SelectedItem.ToString()).Select(a => a.Employee).ToList();
                         return;
                     }
 
-                    CitiesComboBox.ItemsSource = Employees.Where(x => x.Shop == ShopsComboBox.SelectedItem.ToString() || x.Shop == "Не выбрано").Select(a => a.City).Distinct().ToList();
-                    EmployeeComboBox.ItemsSource = Employees.Where(x => x.Shop == ShopsComboBox.SelectedItem.ToString()).Select(a => a.Employee).ToList();
+                    CitiesComboBox.ItemsSource = Employees.Select(x => x.City).Distinct().ToList();
+                    EmployeeComboBox.ItemsSource = Employees.Select(x => x.Employee).ToList();
+                    return;
                 }
+
+                CitiesComboBox.ItemsSource = Employees
+                    .Where(x => x.Shop == ShopsComboBox.SelectedItem.ToString() || x.Shop == "Не выбрано")
+                    .Select(a => a.City).Distinct().ToList();
+                EmployeeComboBox.ItemsSource = Employees.Where(x => x.Shop == ShopsComboBox.SelectedItem.ToString()).Select(a => a.Employee).ToList();
+            }
         }
 
         private void ShiftEnter_Click(object sender, RoutedEventArgs e)
@@ -88,6 +107,14 @@ namespace SGS
                 employeesArr.Add(newEmployee);
 
                 File.WriteAllText(fullPath, JsonConvert.SerializeObject(employeesArr, Formatting.Indented));
+
+                CitiesComboBox.ItemsSource = new List<Shift>();
+                ShopsComboBox.ItemsSource = new List<Shift>();
+                EmployeeComboBox.ItemsSource = new List<Shift>();
+
+                CitiesComboBox.ItemsSource = Employees.Select(x => x.City).Distinct().ToList();
+                ShopsComboBox.ItemsSource = Employees.Select(x => x.Shop).Distinct().ToList();
+                EmployeeComboBox.ItemsSource = Employees.Select(x => x.Employee).ToList();
             }
         }
     } 
